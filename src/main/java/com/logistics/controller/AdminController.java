@@ -3,6 +3,7 @@ package com.logistics.controller;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.lang.Console;
+import com.logistics.domain.vo.OrderVo;
 import com.logistics.domain.vo.UserVo;
 import com.logistics.service.AdminService;
 import com.logistics.utils.ResponseResult;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -42,6 +44,11 @@ public class AdminController {
   public ResponseResult<Void> register(String username, String password, String captcha, String codeIdentifier) {
       adminService.register(username,password,captcha,codeIdentifier);
       return ResponseResult.ok();
+  }
+  @GetMapping("/getALlorderInfo")
+  public ResponseResult<List<OrderVo>> getOrder(){
+
+      return adminService.getOrderInfo();
   }
 }
 

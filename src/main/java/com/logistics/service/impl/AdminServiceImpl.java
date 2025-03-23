@@ -12,21 +12,23 @@ import com.baomidou.mybatisplus.core.toolkit.Sequence;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.logistics.domain.entity.User;
+import com.logistics.domain.vo.OrderVo;
 import com.logistics.domain.vo.UserVo;
 import com.logistics.mapper.UserMapper;
 import com.logistics.service.AdminService;
 import com.logistics.utils.JWTUtils;
 import com.logistics.utils.ResponseResult;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -84,5 +86,18 @@ public class AdminServiceImpl extends ServiceImpl<UserMapper,User> implements Ad
         user.setPassword(Base64.encode(encrypt));
         user.setToken("11111111");
         save(user);
+    }
+
+    @Override
+    public ResponseResult<List<OrderVo>> getOrderInfo() {
+        LocalDate now= LocalDate.now();
+        LocalDate startLocalDate= now.with(DayOfWeek.MONDAY);
+        LocalDate endLocaldate= now.with(DayOfWeek.SUNDAY).plusDays(1);
+        LocalDateTime startLocalDateTime= startLocalDate.atStartOfDay();
+        LocalDateTime endLocalDateTime= endLocaldate.atStartOfDay();
+
+        // 获取订单信息数量
+        List<OrderVo> orderInfo= baseMapper.getOrderInfo(startLocalDateTime,endLocalDateTime);
+        return ResponseResult.ok(orderInfo);
     }
 }
