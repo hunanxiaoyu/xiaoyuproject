@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,20 +36,20 @@ public class AdminController {
       return codeKey;
     }
   @PostMapping("/login")
-  public ResponseResult<UserVo> login (String username, String password, String captcha, String codeIdentifier) {
+  public ResponseResult<UserVo> login (@NotNull String username, @NotNull String password, @NotNull String captcha, @NotNull String codeIdentifier) {
     ResponseResult<UserVo> login= adminService.login(username, password, captcha, codeIdentifier);
     log.info(login.getMsg());
     return login;
   }
   @PostMapping("/register")
-  public ResponseResult<Void> register(String username, String password, String captcha, String codeIdentifier) {
+  public ResponseResult<Void> register(@NotNull String username, @NotNull String password, @NotNull String captcha, @NotNull String codeIdentifier) {
       adminService.register(username,password,captcha,codeIdentifier);
       return ResponseResult.ok();
   }
-  @GetMapping("/getALlorderInfo")
+  @GetMapping("/getAllorderInfo")
   public ResponseResult<List<OrderVo>> getOrder(){
 
-      return adminService.getOrderInfo();
+            return adminService.getOrderInfo();
   }
 }
 

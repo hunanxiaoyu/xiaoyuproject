@@ -91,13 +91,11 @@ public class AdminServiceImpl extends ServiceImpl<UserMapper,User> implements Ad
     @Override
     public ResponseResult<List<OrderVo>> getOrderInfo() {
         LocalDate now= LocalDate.now();
-        LocalDate startLocalDate= now.with(DayOfWeek.MONDAY);
-        LocalDate endLocaldate= now.with(DayOfWeek.SUNDAY).plusDays(1);
+        LocalDate startLocalDate= now.with(DayOfWeek.MONDAY).minusDays(7);
         LocalDateTime startLocalDateTime= startLocalDate.atStartOfDay();
-        LocalDateTime endLocalDateTime= endLocaldate.atStartOfDay();
 
         // 获取订单信息数量
-        List<OrderVo> orderInfo= baseMapper.getOrderInfo(startLocalDateTime,endLocalDateTime);
+        List<OrderVo> orderInfo= baseMapper.getOrderInfo(startLocalDateTime);
         return ResponseResult.ok(orderInfo);
     }
 }

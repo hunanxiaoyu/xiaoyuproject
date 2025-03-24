@@ -1,5 +1,6 @@
 package com.logistics.domain.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.logistics.domain.entity.orderItem;
 import com.logistics.enums.PayStatus;
 import com.logistics.enums.PaymentMethod;
@@ -17,8 +18,11 @@ public class OrderVo {
     private PayStatus payStatus;
     private BigDecimal totalAmount;
     private PaymentMethod paymentMethod;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime paymentTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
     private String remark;
     private List<orderItem> orderItems;
