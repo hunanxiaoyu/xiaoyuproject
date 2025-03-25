@@ -7,11 +7,11 @@ import lombok.Getter;
 @Getter
 public enum PayStatus {
     // 订单状态: 0-待支付, 1-已支付, 2-已发货, 3-已完成, 4-已取消
-    Waiting("待支付"),
-    Paying("已支付"),
-    Dispatch("已发货"),
-    Completed("已完成"),
-    Cancelled("已取消");
+    Waiting("0"),
+    Paying("1"),
+    Dispatch("2"),
+    Completed("3"),
+    Cancelled("4");
     @EnumValue
     @JsonValue
     private final String status;

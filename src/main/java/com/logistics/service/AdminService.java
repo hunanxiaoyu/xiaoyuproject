@@ -16,5 +16,5 @@ public interface AdminService extends IService<User> {
 
     void register(String username, String password, String captcha, String codeIdentifier);
 
-    ResponseResult<List<OrderVo>> getOrderInfo();
+
 }

@@ -46,10 +46,6 @@ public class AdminController {
       adminService.register(username,password,captcha,codeIdentifier);
       return ResponseResult.ok();
   }
-  @GetMapping("/getAllorderInfo")
-  public ResponseResult<List<OrderVo>> getOrder(){
 
-            return adminService.getOrderInfo();
-  }
 }
 

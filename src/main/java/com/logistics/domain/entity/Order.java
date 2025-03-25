@@ -8,11 +8,10 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @TableName("orders")
-public class order {
+public class Order {
     private BigInteger id;
     private String orderNumber;
     private String userId;

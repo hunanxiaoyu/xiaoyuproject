@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 @Data
 @TableName("order_items")
-public class orderItem {
+public class OrderItem {
     private BigInteger id;
     private BigInteger orderId;
     private BigInteger productId;

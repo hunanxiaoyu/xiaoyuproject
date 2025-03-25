@@ -88,14 +88,5 @@ public class AdminServiceImpl extends ServiceImpl<UserMapper,User> implements Ad
         save(user);
     }
 
-    @Override
-    public ResponseResult<List<OrderVo>> getOrderInfo() {
-        LocalDate now= LocalDate.now();
-        LocalDate startLocalDate= now.with(DayOfWeek.MONDAY).minusDays(7);
-        LocalDateTime startLocalDateTime= startLocalDate.atStartOfDay();
 
-        // 获取订单信息数量
-        List<OrderVo> orderInfo= baseMapper.getOrderInfo(startLocalDateTime);
-        return ResponseResult.ok(orderInfo);
-    }
 }
