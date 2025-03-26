@@ -15,8 +15,8 @@ public class Order {
     private BigInteger id;
     private String orderNumber;
     private String userId;
-    private BigDecimal totalPrice;
-    private PayStatus payStatus;
+    private BigDecimal totalAmount;
+    private PayStatus status;
     private PaymentMethod paymentMethod;
     private LocalDateTime paymentTime;
     private LocalDateTime createTime;

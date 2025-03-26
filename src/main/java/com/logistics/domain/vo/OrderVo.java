@@ -12,9 +12,10 @@ import java.util.List;
 
 @Data
 public class OrderVo {
+    private Integer id;
     private String orderNumber;
     private String username;
-    private PayStatus payStatus;
+    private PayStatus status;
     private BigDecimal totalAmount;
     private PaymentMethod paymentMethod;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

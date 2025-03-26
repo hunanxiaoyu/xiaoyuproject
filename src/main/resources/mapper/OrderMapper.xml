@@ -3,10 +3,11 @@
 <mapper namespace="com.logistics.mapper.OrderMapper">
 
     <resultMap id="orderResultMap" type="com.logistics.domain.vo.OrderVo">
+        <result column="id" property="id"/>
         <result column="order_number" property="orderNumber"/>
         <result column="username" property="username"/>
         <result column="total_amount" property="totalAmount"/>
-        <result column="status" property="payStatus"/>
+        <result column="status" property="status"/>
         <result column="payment_method" property="paymentMethod"/>
         <result column="payment_time" property="paymentTime"/>
         <result column="create_time" property="createTime"/>
