@@ -1,5 +1,7 @@
 package com.logistics.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.logistics.enums.PaymentMethod;
 import com.logistics.enums.PayStatus;
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("orders")
 public class Order {
+    @TableId(type = IdType.AUTO)
     private BigInteger id;
     private String orderNumber;
     private String userId;

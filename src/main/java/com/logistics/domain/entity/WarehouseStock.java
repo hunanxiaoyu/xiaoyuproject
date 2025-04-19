@@ -1,6 +1,7 @@
 package com.logistics.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.logistics.enums.WarehouseStockStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,4 +19,6 @@ public class WarehouseStock {
     private String warehouseLocation;
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime lastUpdate;
+    private String sort;
+    private WarehouseStockStatus status;
 }
