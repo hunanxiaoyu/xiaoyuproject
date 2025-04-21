@@ -1,14 +1,14 @@
 package com.logistics.controller;
 
 import cn.hutool.core.lang.Console;
+import com.logistics.domain.dto.InventoryDto;
 import com.logistics.domain.vo.WarehouseStockVo;
 import com.logistics.service.WareHouseService;
 import com.logistics.utils.ResponseResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +24,18 @@ public class WareHouseController {
       return ResponseResult.ok(allWareHouseStock);
   }
   @GetMapping("/getWareHouseStock/List")
-    public ResponseResult<List<WarehouseStockVo>> getWareHouseStock(){
-      List<WarehouseStockVo> warehouseStockVos= wareHouseService.WarehouseStock();
+    public ResponseResult<List<WarehouseStockVo>> getWareHouseStock(String productName,String status){
+      List<WarehouseStockVo> warehouseStockVos= wareHouseService.WarehouseStock(productName, status);
       return ResponseResult.ok(warehouseStockVos);
+  }
+  @PutMapping("/adjusting/inventory")
+    public ResponseResult<Void>  updateInventory(@RequestBody InventoryDto inventoryDto) {
+      wareHouseService.updateInventory(inventoryDto);
+      return ResponseResult.ok();
+  }
+  @PostMapping("/InOutInventoty")
+  public ResponseResult<Void>  updateInOutInventory(BigInteger id, String type,Integer quantity,String remark) {
+       wareHouseService.updateInOutInventory(id,type,quantity,remark);
+       return ResponseResult.ok();
   }
 }
