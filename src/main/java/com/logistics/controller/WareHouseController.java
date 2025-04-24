@@ -2,9 +2,6 @@ package com.logistics.controller;
 
 import cn.hutool.core.lang.Console;
 import com.logistics.domain.dto.InventoryDto;
-import com.logistics.domain.dto.WarehouseStockDto;
-import com.logistics.domain.vo.WarehouseLocationVo;
-import com.logistics.domain.vo.WarehouseLogVo;
 import com.logistics.domain.vo.WarehouseStockVo;
 import com.logistics.service.WareHouseService;
 import com.logistics.utils.ResponseResult;
@@ -37,23 +34,8 @@ public class WareHouseController {
       return ResponseResult.ok();
   }
   @PostMapping("/InOutInventoty")
-  public ResponseResult<Void>  updateInOutInventory( Integer id, String type, Integer quantity, String remark) {
+  public ResponseResult<Void>  updateInOutInventory(BigInteger id, String type,Integer quantity,String remark) {
        wareHouseService.updateInOutInventory(id,type,quantity,remark);
-       return ResponseResult.ok();
-  }
-  @GetMapping("/getStockChangeRecord")
-    public ResponseResult<List<WarehouseLogVo>> getStockChangeRecord(){
-    List<WarehouseLogVo> stockChangeRecord= wareHouseService.getStockChangeRecord();
-    return ResponseResult.ok(stockChangeRecord);
-  }
-  @GetMapping("/getWarehouseLocation")
-  public  ResponseResult<List<WarehouseLocationVo>> getWarehouseLocation(Integer id){
-    List<WarehouseLocationVo> warehouseLocation= wareHouseService.getWarehouseLocation(id);
-    return ResponseResult.ok(warehouseLocation);
-  }
-  @PostMapping("/stockSchedule")
-    public ResponseResult<Void>  stockSchedule(@RequestBody WarehouseStockDto warehouseStockDto) {
-       wareHouseService.stockSchedule(warehouseStockDto);
        return ResponseResult.ok();
   }
 }
