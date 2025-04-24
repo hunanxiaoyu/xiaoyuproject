@@ -2,7 +2,10 @@ package com.logistics.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.logistics.domain.dto.InventoryDto;
+import com.logistics.domain.dto.WarehouseStockDto;
 import com.logistics.domain.entity.WarehouseStock;
+import com.logistics.domain.vo.WarehouseLocationVo;
+import com.logistics.domain.vo.WarehouseLogVo;
 import com.logistics.domain.vo.WarehouseStockVo;
 
 import java.math.BigInteger;
@@ -17,5 +20,11 @@ public interface WareHouseService extends IService<WarehouseStock> {
     void updateInventory(InventoryDto inventtoryDto);
 
 
-    void updateInOutInventory(BigInteger id, String type, Integer quantity, String remark);
+    void updateInOutInventory(Integer id, String type, Integer quantity, String remark);
+
+    List<WarehouseLogVo> getStockChangeRecord();
+
+    List<WarehouseLocationVo> getWarehouseLocation(Integer id);
+
+    void stockSchedule(WarehouseStockDto warehouseStockDto);
 }

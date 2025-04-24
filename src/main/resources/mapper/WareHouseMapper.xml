@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logistics.mapper.WareHouseMapper">
+    <select id="getWarehouseStockByProductNameAndStatus" resultType="com.logistics.domain.vo.WarehouseStockVo" >
+        select id,product_name,sort,stock_quantity,status from warehouse_stock
+        <where>
+            <if test="productName != null and productName != ''">
+               and product_name = #{productName}
+            </if>
+          <if test="status != null and status != ''">
+            and  status = #{status}
+
+          </if>
+        </where>
+    </select>
+    <update id="updateInventory">
+        update warehouse_stock
+        <set>
+           <if test="stockQuantity !=null and stockQuantity != ''">
+               stock_quantity = #{stockQuantity},
+           </if>
+            <if test="status !=null and status != ''">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="getWarehouseLocation" resultType="com.logistics.domain.vo.WarehouseLocationVo">
+        select MIN(id) as id,warehouse_location from warehouse_stock
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
+        </where>
+        group by warehouse_location;
+    </select>
+</mapper>
