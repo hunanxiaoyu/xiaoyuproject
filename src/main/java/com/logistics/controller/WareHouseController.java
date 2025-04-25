@@ -3,9 +3,7 @@ package com.logistics.controller;
 import cn.hutool.core.lang.Console;
 import com.logistics.domain.dto.InventoryDto;
 import com.logistics.domain.dto.WarehouseStockDto;
-import com.logistics.domain.vo.WarehouseLocationVo;
-import com.logistics.domain.vo.WarehouseLogVo;
-import com.logistics.domain.vo.WarehouseStockVo;
+import com.logistics.domain.vo.*;
 import com.logistics.service.WareHouseService;
 import com.logistics.utils.ResponseResult;
 import lombok.RequiredArgsConstructor;
@@ -45,13 +43,23 @@ public class WareHouseController {
     return ResponseResult.ok(stockChangeRecord);
   }
   @GetMapping("/getWarehouseLocation")
-  public  ResponseResult<List<WarehouseLocationVo>> getWarehouseLocation(Integer id){
-    List<WarehouseLocationVo> warehouseLocation= wareHouseService.getWarehouseLocation(id);
+  public  ResponseResult<List<WarehouseLocationVo>> getWarehouseLocation(){
+    List<WarehouseLocationVo> warehouseLocation= wareHouseService.getWarehouseLocation();
     return ResponseResult.ok(warehouseLocation);
   }
   @PostMapping("/stockSchedule")
     public ResponseResult<Void>  stockSchedule(@RequestBody WarehouseStockDto warehouseStockDto) {
        wareHouseService.stockSchedule(warehouseStockDto);
        return ResponseResult.ok();
+  }
+  @GetMapping("/getWarehouseLocationById")
+  public ResponseResult<List<WarehouseStockAndStorageLocationVO>> getWarehouseLocationById(Long id){
+    List<WarehouseStockAndStorageLocationVO> warehouseLocationById= wareHouseService.getWarehouseLocationById(id);
+    return ResponseResult.ok(warehouseLocationById);
+  }
+  @GetMapping("/getTransferRecord")
+  public ResponseResult<List<WarehouseStockTransferRecordVo>> getTransferRecord(Long id,String status){
+    List<WarehouseStockTransferRecordVo> transferRecord= wareHouseService.getWarehouseStockTransferRecord(id,status);
+    return ResponseResult.ok(transferRecord);
   }
 }

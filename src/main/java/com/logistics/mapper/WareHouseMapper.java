@@ -1,11 +1,11 @@
 package com.logistics.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.logistics.domain.dto.InventoryDto;
 import com.logistics.domain.entity.WarehouseStock;
-import com.logistics.domain.vo.WarehouseLocationVo;
-import com.logistics.domain.vo.WarehouseLogVo;
-import com.logistics.domain.vo.WarehouseStockVo;
+import com.logistics.domain.vo.*;
+import com.logistics.enums.TransRecordStatus;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -21,16 +21,14 @@ public interface WareHouseMapper extends BaseMapper<WarehouseStock> {
     void updateInInventory(Integer id, Integer quantity);
     @Update("update warehouse_stock set stock_quantity = stock_quantity-#{ quantity} where id = #{id} ")
     void updateOutInventory(Integer id, Integer quantity);
-    @Insert("insert into warehouse_log (change_type, change_quantity, operation_time, operator, remark, warehouse_stock_id,storage_location) values (#{type},#{quantity},#{operateTime},#{operator},#{remark},#{warehouseStockId},#{storageLocation})")
-    void insertWarehouseStockLog(Integer warehouseStockId, Integer type, Integer quantity, String remark, String operator, LocalDateTime operateTime,String storageLocation);
+    @Insert("insert into warehouse_log (id, change_type, change_quantity, operation_time, operator, remark, warehouse_stock_id,storage_location) values (#{id},#{type},#{quantity},#{operateTime},#{operator},#{remark},#{warehouseStockId},#{storageLocation})")
+    void insertWarehouseStockLog(Long id, Integer warehouseStockId, Integer type, Integer quantity, String remark, String operator, LocalDateTime operateTime,String storageLocation);
     @Select("select change_type,warehouse_stock.product_name,change_quantity,operation_time,operator,remark from warehouse_log join warehouse_stock on warehouse_log.warehouse_stock_id = warehouse_stock.id")
     List<WarehouseLogVo> getStockChangeRecord();
-    List<WarehouseLocationVo> getWarehouseLocation(Integer id);
+    List<WarehouseLocationVo> getWarehouseLocation();
     @Update("update warehouse_stock set stock_quantity = stock_quantity - #{quantity} where id = #{goodsId}")
     void warehouseReduceCount(Integer goodsId, Integer quantity);
-    @Select("select id,product_name,sort,stock_quantity,status from warehouse_stock where id = #{goodsId} and warehouse_location = #{toWarehouse}")
-    WarehouseStockVo warehouseByIdAndwarehouseLocation(Integer goodsId, String toWarehouse);
-    @Update("update warehouse_stock set stock_quantity = stock_quantity + #{quantity} where id = #{goodsId}")
-    void warehouseAddCount(Integer goodsId, Integer quantity);
-
+    @Select("select warehouse_stock.id as warehouseStockId, wl.id as warehouseLogId, warehouse_location,storage_location from warehouse_stock join logistics.warehouse_log wl on warehouse_stock.id = wl.warehouse_stock_id where warehouse_stock.id = #{id}")
+    List<WarehouseStockAndStorageLocationVO> getWarehouseLocationById(Long id);
+    List<WarehouseStockTransferRecordVo> getWarehouseStockTransferRecord(Long id, String status);
 }

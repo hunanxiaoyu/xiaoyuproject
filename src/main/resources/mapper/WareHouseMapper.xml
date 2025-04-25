@@ -26,12 +26,18 @@
         where id = #{id}
     </update>
     <select id="getWarehouseLocation" resultType="com.logistics.domain.vo.WarehouseLocationVo">
-        select MIN(id) as id,warehouse_location from warehouse_stock
-        <where>
-            <if test="id != null and id != ''">
-                id = #{id}
-            </if>
-        </where>
-        group by warehouse_location;
+        select MIN(warehouse_stock.id) as id, warehouse_location
+        from warehouse_stock group by warehouse_location;
+    </select>
+    <select id="getWarehouseStockTransferRecord">
+        select operation_time,product_name,warehouse_location,wl.storage_location,wl.change_quantity,wl.status,operator,remark
+        from warehouse_stock join logistics.warehouse_log wl on warehouse_stock.id = wl.warehouse_stock_id
+        where storage_location is not null
+        <if test="id != null and id != ''">
+           and  warehouse_stock.id = #{id}
+        </if>
+        <if test="status != null and status != ''">
+            and  wl.status = #{status}
+        </if>
     </select>
 </mapper>

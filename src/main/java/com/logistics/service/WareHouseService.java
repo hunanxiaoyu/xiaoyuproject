@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.logistics.domain.dto.InventoryDto;
 import com.logistics.domain.dto.WarehouseStockDto;
 import com.logistics.domain.entity.WarehouseStock;
-import com.logistics.domain.vo.WarehouseLocationVo;
-import com.logistics.domain.vo.WarehouseLogVo;
-import com.logistics.domain.vo.WarehouseStockVo;
+import com.logistics.domain.vo.*;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -24,7 +22,11 @@ public interface WareHouseService extends IService<WarehouseStock> {
 
     List<WarehouseLogVo> getStockChangeRecord();
 
-    List<WarehouseLocationVo> getWarehouseLocation(Integer id);
+    List<WarehouseLocationVo> getWarehouseLocation();
 
     void stockSchedule(WarehouseStockDto warehouseStockDto);
+
+    List<WarehouseStockAndStorageLocationVO> getWarehouseLocationById(Long id);
+
+    List<WarehouseStockTransferRecordVo> getWarehouseStockTransferRecord(Long id,String status);
 }

@@ -1,19 +1,14 @@
 package com.logistics.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.logistics.domain.dto.InventoryDto;
 import com.logistics.domain.dto.WarehouseStockDto;
 import com.logistics.domain.entity.WarehouseStock;
-import com.logistics.domain.vo.WarehouseLocationVo;
-import com.logistics.domain.vo.WarehouseLogVo;
-import com.logistics.domain.vo.WarehouseStockVo;
-import com.logistics.enums.WarehouseStockStatus;
+import com.logistics.domain.vo.*;
 import com.logistics.mapper.WareHouseMapper;
 import com.logistics.service.WareHouseService;
 import org.springframework.stereotype.Service;
-
-import java.math.BigInteger;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -63,9 +58,8 @@ public class WareHouseServiceImpl extends ServiceImpl<WareHouseMapper, Warehouse
         LocalDateTime localDateTime = LocalDateTime.now();
         // TODO 当前登录用户先写死
         String username = "xiaoyu";
-
-
-        baseMapper.insertWarehouseStockLog(warehouseStockId, inAndOut, quantity, remark, username, localDateTime,null);
+        Long id = IdWorker.getId();
+        baseMapper.insertWarehouseStockLog(id,warehouseStockId, inAndOut, quantity, remark, username, localDateTime,null);
     }
 
     @Override
@@ -74,8 +68,8 @@ public class WareHouseServiceImpl extends ServiceImpl<WareHouseMapper, Warehouse
     }
 
     @Override
-    public List<WarehouseLocationVo> getWarehouseLocation(Integer id) {
-        return baseMapper.getWarehouseLocation(id);
+    public List<WarehouseLocationVo> getWarehouseLocation() {
+        return baseMapper.getWarehouseLocation();
     }
 
     @Override
@@ -85,27 +79,25 @@ public class WareHouseServiceImpl extends ServiceImpl<WareHouseMapper, Warehouse
         }
         // 调出库存减少数量
         baseMapper.warehouseReduceCount(warehouseStockDto.getGoodsId(),warehouseStockDto.getQuantity());
-        // 调入库存新增数量
-        //  查看这个仓库是否有这个库存
-        WarehouseStockVo warehouseStockVo= baseMapper.warehouseByIdAndwarehouseLocation(warehouseStockDto.getGoodsId(), warehouseStockDto.getToWarehouse());
 
-        //有的话就直接新增数量就行
-     if (warehouseStockVo != null) {
-         baseMapper.warehouseAddCount(warehouseStockDto.getGoodsId(),warehouseStockDto.getQuantity());
-     }
-        //没有就新增一条库存
-        WarehouseStock stock= this.getById(warehouseStockDto.getGoodsId());
-         stock.setWarehouseLocation(warehouseStockDto.getToWarehouse());
-         stock.setStockQuantity(warehouseStockDto.getQuantity());
-         stock.setLastUpdate(LocalDateTime.now());
-         stock.setId(null);
-         this.save(stock);
-        // 生成一条日志
+        // 生成库存调动
         // TODO 当前登录用户先写死
         String username = "xiaoyu";
         LocalDateTime localDateTime = LocalDateTime.now();
         // 新增跟改库存记录
-        baseMapper.insertWarehouseStockLog(stock.getId(),3,warehouseStockDto.getQuantity(),warehouseStockDto.getReason(),username,localDateTime,warehouseStockDto.getToWarehouse());
+        Long id = IdWorker.getId();
+        baseMapper.insertWarehouseStockLog(id,warehouseStockDto.getGoodsId(), 3,warehouseStockDto.getQuantity(),warehouseStockDto.getReason(),username,localDateTime,warehouseStockDto.getToWarehouse());
 
    }
+
+    @Override
+    public List<WarehouseStockAndStorageLocationVO> getWarehouseLocationById(Long id) {
+        return baseMapper.getWarehouseLocationById(id);
+    }
+
+    @Override
+    public List<WarehouseStockTransferRecordVo> getWarehouseStockTransferRecord(Long id, String status) {
+
+        return baseMapper.getWarehouseStockTransferRecord(id,status);
+    }
 }
